@@ -1,38 +1,266 @@
-.App {
+body {
+  height: max-content;
+  min-height: 100vh;
+  text-align: center;
+  background: linear-gradient(56deg, #4158d0, #c850c0, #ffcc70);
+  background-size: 600% 600%;
+
+  -webkit-animation: AnimationName 8s ease infinite;
+  -moz-animation: AnimationName 8s ease infinite;
+  -o-animation: AnimationName 8s ease infinite;
+  animation: AnimationName 8s ease infinite;
+}
+#container {
+  height: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: left;
+  padding: 0 20px;
+}
+
+@-webkit-keyframes AnimationName {
+  0% {
+    background-position: 86% 0%;
+  }
+  50% {
+    background-position: 15% 100%;
+  }
+  100% {
+    background-position: 86% 0%;
+  }
+}
+@-moz-keyframes AnimationName {
+  0% {
+    background-position: 86% 0%;
+  }
+  50% {
+    background-position: 15% 100%;
+  }
+  100% {
+    background-position: 86% 0%;
+  }
+}
+@-o-keyframes AnimationName {
+  0% {
+    background-position: 86% 0%;
+  }
+  50% {
+    background-position: 15% 100%;
+  }
+  100% {
+    background-position: 86% 0%;
+  }
+}
+@keyframes AnimationName {
+  0% {
+    background-position: 86% 0%;
+  }
+  50% {
+    background-position: 15% 100%;
+  }
+  100% {
+    background-position: 86% 0%;
+  }
+}
+
+.heading {
+  text-align: center;
+  font-size: 4em;
+  font-family: "Work Sans", sans-serif;
+  font-weight: 700;
+  background: linear-gradient(66deg, #b5fffc 40%, #a6f5ff 20%, #ffdee9 60%);
+  background-size: 200% auto;
+
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: shine 6s ease infinite;
+}
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+p {
+  color: black;
+}
+
+.submit-btn {
+  margin-left: 16px;
+  display: inline-block;
+  font-size: 1.4em;
+  height: max-content;
+  width: max-content;
+  cursor: pointer;
+  background: transparent;
+  white-space: nowrap;
+  background-color: #ffffff;
+  border: 1px solid #222222;
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: #222222;
+  line-height: 20px;
+  outline: none;
+  padding: 13px 23px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#load-btn {
+  height: 100%;
+  width: auto;
+  margin-left: 16px;
+  display: inline-block;
+  font-size: 1em;
+  cursor: pointer;
+  background: transparent;
+  background-color: #ffffff;
+  border: 1px solid #222222;
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: #222222;
+  line-height: 20px;
+  outline: none;
+  padding: 13px 23px;
+  position: relative;
   text-align: center;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+#loadmore {
+  text-align: center;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+#input-form {
+  margin-bottom: 4%;
+  vertical-align: middle;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+}
+ul {
+  list-style-type: none;
+}
+li {
+  font-size: 2em;
+  font-family: "Ubuntu", sans-serif;
+  margin-bottom: 32px; /*32 */
 }
 
-.App-link {
-  color: #61dafb;
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+  opacity: 0.01;
+}
+[type="checkbox"]:not(:checked) + label,
+[type="checkbox"]:checked + label {
+  position: relative;
+  padding-left: 2.3em;
+  font-size: 1.05em;
+  line-height: 1.7;
+  cursor: pointer;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+[type="checkbox"]:not(:checked) + label:before,
+[type="checkbox"]:checked + label:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.2em;
+  height: 1.2em;
+  border: 1px solid #aaa;
+  /* opacity: 0; */
+  /* background: #fff; */
+  border-radius: 0.2em;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 0 4px rgba(6, 6, 6, 0.4);
+  -webkit-transition: all 0.275s;
+  transition: all 0.275s;
+}
+
+[type="checkbox"]:checked + .label {
+  text-decoration: line-through;
+}
+/* checked mark aspect */
+[type="checkbox"]:not(:checked) + label:after,
+[type="checkbox"]:checked + label:after {
+  content: "\2713";
+  position: absolute;
+  top: 0.32em;
+  left: 0.01em;
+  font-size: 1.8em;
+  color: greenyellow;
+  line-height: 0;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+/* checked mark aspect changes */
+[type="checkbox"]:not(:checked) + label:after {
+  opacity: 0;
+  -webkit-transform: scale(0) rotate(45deg);
+  transform: scale(0) rotate(45deg);
+}
+
+[type="checkbox"]:checked + label:after {
+  opacity: 1;
+  -webkit-transform: scale(1) rotate(0);
+  transform: scale(1) rotate(0);
+}
+[type="checkbox"]:checked:focus + label:before {
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1),
+    0 0 0 6px rgba(78, 220, 78, 0.4);
+}
+[type="checkbox"]:not(:checked):focus + label:before {
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1),
+    0 0 0 6px rgba(65, 88, 208, 0.4);
+}
+
+:focus {
+  outline: none;
+}
+.input-todo {
+  /* width: 27.33%; */
+  position: relative;
+  flex: 1;
+  display: inline-block;
+}
+input[type="text"] {
+  font-size: 2em;
+  font-family: "Ubuntu", sans-serif;
+  color: #000;
+  width: 100%;
+  background-color: transparent;
+  box-sizing: border-box;
+  letter-spacing: 1px;
+}
+input[type="text"]::placeholder {
+  /* font-size: 2em; */
+  font-family: "Ubuntu", sans-serif;
+  color: rgba(27, 27, 27, 0.707);
+  width: 100%;
+  background-color: transparent;
+  box-sizing: border-box;
+  letter-spacing: 1px;
+}
+
+.border-effect {
+  border: 0;
+  padding: 7px 0;
+  /* border-bottom: 1px solid #ccc; */
+}
+
+.border-effect ~ .focus-border {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: #4caf50;
+  transition: 0.4s;
+}
+.border-effect:focus ~ .focus-border {
+  width: 100%;
+  transition: 0.4s;
+  left: 0;
 }
