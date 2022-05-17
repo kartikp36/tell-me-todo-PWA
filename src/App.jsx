@@ -1,18 +1,31 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import "./App.css";
-import { getUpdates, loadOnScroll, submitTodo } from "./db";
+import { initDb } from "./db";
+import { loadOnScroll, submitTodo } from "./db";
+import DisplayTodos from "./DisplayTodos";
 
 function App() {
-  let level = 1,
-    pages = 0;
-  const [loadMoreButton, setLoadMoreButton] = useState(false);
-  const handleSubmit = () => {
-    submitTodo();
+  const [level, setLevel] = useState(1);
+  const [allTodos, setAllTodos] = useState([]);
+  const getTodos = async () => {
+    let result = await initDb();
+    setTimeout(() => {
+      setAllTodos(result);
+    }, 200);
   };
+  useEffect(() => {
+    getTodos();
+  }, []);
 
+  const [loadMoreButton, setLoadMoreButton] = useState(false);
+  const [task, setTask] = useState("");
+
+  const handleChange = (e) => {
+    setTask(e.target.value);
+  };
   const loadMore = () => {
-    level++;
+    setLevel(() => level + 1);
     loadOnScroll();
     setLoadMoreButton(false);
   };
@@ -23,14 +36,15 @@ function App() {
     if (listInnerRef.current) {
       const { scrollTop, scrollHeight, clientHeight } = listInnerRef.current;
       if (scrollTop + clientHeight === scrollHeight) {
-        ({ level, pages } = getUpdates());
-        if (level >= pages / 10) {
+        console.log("Level: ", level);
+        if (level * 10 >= allTodos.length) {
           console.log("That's all the todos");
           return;
         } else if (level % 3 === 0) {
           console.log("3 levels Loadmore button here");
           setLoadMoreButton(true);
         } else {
+          setLevel(() => level + 1);
           setTimeout(() => {
             loadOnScroll();
           }, 2000);
@@ -58,11 +72,16 @@ function App() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            handleSubmit();
+            submitTodo(task);
+            getTodos();
+            setTask("");
           }}>
           <div id="input-form" className="input-form">
             <div className="input-todo">
               <input
+                onChange={(e) => handleChange(e)}
+                value={task}
+                autoFocus
                 className="border-effect"
                 type="text"
                 id="input-text"
@@ -79,8 +98,16 @@ function App() {
               value="Add task"
             />
           </div>
-          <div id="todos"></div>
         </form>
+        <div id="todos" key={!!allTodos}>
+          {!!allTodos ? (
+            <DisplayTodos
+              key={allTodos.length}
+              todos={allTodos}
+              level={level}
+            />
+          ) : null}
+        </div>
         <div id="loadmore">
           {loadMoreButton && (
             <button

@@ -2,20 +2,44 @@ let db;
 let dbReq = indexedDB.open("myDatabase", 1);
 let level = 1,
   pages = 0;
-
-export const getUpdates = () =>{
-  return {level, pages}
-}
 dbReq.onupgradeneeded = function (event) {
   db = event.target.result;
-  db.createObjectStore("todos", { autoIncrement: true });
+  let todos = db.createObjectStore("todos", { autoIncrement: true });
 };
 dbReq.onsuccess = function (event) {
   db = event.target.result;
-  getAndDisplayTodos(db);
 };
 dbReq.onerror = function (event) {
   alert("Error while opening database " + event.target.errorCode);
+};
+
+export const getUpdates = () => {
+  return { level, pages };
+};
+export const initDb = async () => {
+  let allTodos = [];
+  async function initPromise() {
+    return new Promise(function (resolve, reject) {
+      dbReq = indexedDB.open("myDatabase", 1);
+      dbReq.onupgradeneeded = function (event) {
+        db = event.target.result;
+        db.createObjectStore("todos", { autoIncrement: true });
+      };
+      dbReq.onsuccess = function (event) {
+        db = event.target.result;
+        allTodos = getAndDisplayTodos(db);
+        resolve(allTodos);
+      };
+      dbReq.onerror = function (event) {
+        alert("Error while opening database " + event.target.errorCode);
+      };
+    });
+  }
+
+  allTodos = initPromise().then(function (result) {
+    return result;
+  });
+  return allTodos;
 };
 
 function addTodo(db, task) {
@@ -29,24 +53,22 @@ function addTodo(db, task) {
   };
   transaction.oncomplete = function () {
     console.log("objectStored your new todo task!");
-    getAndDisplayTodos(db);
+    // getAndDisplayTodos(db);
   };
   transaction.onerror = function (event) {
     alert("Error while storing the todo " + event.target.errorCode);
   };
 }
 
-export const submitTodo = function submitTodo() {
-  let task = document.getElementById("input-text");
-  if (!task.value) {
+export const submitTodo = (task) => {
+  if (!task) {
     console.error("Please enter a task");
   } else {
-    addTodo(db, `${task.value}`);
-    task.value = "";
+    addTodo(db, `${task}`);
   }
 };
 
-function getAndDisplayTodos(db, level) {
+export const getAndDisplayTodos = (db) => {
   let transaction = db.transaction(["todos"], "readwrite");
   let objectStore = transaction.objectStore("todos");
 
@@ -69,17 +91,32 @@ function getAndDisplayTodos(db, level) {
         return a.check - b.check;
       });
       pages = allTodos.length;
-      displayTodos(allTodos, level);
     }
   };
   req.onerror = function (event) {
     alert("error in cursor request " + event.target.errorCode);
   };
-}
+  return allTodos;
+};
 
-function toggleTodo() {
-  let id = parseInt(this.id);
-  let checked = document.getElementById(id).checked;
+// new toggle func
+
+export const toggle = async (id) => {
+  async function togglePromise() {
+    return new Promise(function (resolve, reject) {
+      toggleTodo(db, id);
+    });
+  }
+
+  togglePromise().then(function (result) {
+    return;
+  });
+  return;
+};
+// old toggle
+export const toggleTodo = (db, id) => {
+  let checked = document.getElementById(id)?.checked;
+  console.log(checked);
   let transaction = db.transaction(["todos"], "readwrite");
   let objectStore = transaction.objectStore("todos");
 
@@ -103,44 +140,7 @@ function toggleTodo() {
   req.onerror = function (event) {
     alert("Error toggling the todo" + event.target.errorCode);
   };
-}
-
-function displayTodos(todos) {
-  const ul = document.createElement("ul");
-
-  var counter = 1;
-  for (const i in todos) {
-    if (counter <= 10 * level) {
-      let todo = todos[i];
-      const li = document.createElement("li");
-      const input = document.createElement("input");
-      input.onchange = toggleTodo;
-      input.type = "checkbox";
-      input.id = todo.key;
-      input.className = todo.text;
-      input.value = todo.text;
-      input.label = todo.text;
-      if (todo.check) {
-        input.checked = "true";
-      }
-      var label = document.createElement("label");
-      label.htmlFor = todo.key;
-      label.className = "label";
-      label.innerText =
-        todo.text +
-        "    " + counter +
-        " (" +
-        new Date(todo.timestamp).toLocaleString() +
-        ")";
-      li.appendChild(input);
-      li.appendChild(label);
-      ul.appendChild(li);
-    }
-    counter++;
-  }
-  document.getElementById("todos").innerHTML = "";
-  document.getElementById("todos").appendChild(ul);
-}
+};
 export const loadOnScroll = () => {
   let transaction = db.transaction(["todos"], "readwrite");
   let objectStore = transaction.objectStore("todos");
@@ -150,8 +150,7 @@ export const loadOnScroll = () => {
   transaction.oncomplete = function () {
     console.log("New todos loaded");
     level++;
-    console.log("Level:", level);
-    getAndDisplayTodos(db, level);
+    // getAndDisplayTodos(db, level);
   };
   transaction.onerror = function (event) {
     alert("Error while loading the todo " + event.target.errorCode);
