@@ -1,23 +1,7 @@
 let db;
-let dbReq = indexedDB.open("myDatabase", 1);
-let level = 1,
-  pages = 0;
-dbReq.onupgradeneeded = function (event) {
-  db = event.target.result;
-  let todos = db.createObjectStore("todos", { autoIncrement: true });
-};
-dbReq.onsuccess = function (event) {
-  db = event.target.result;
-};
-dbReq.onerror = function (event) {
-  alert("Error while opening database " + event.target.errorCode);
-};
+let dbReq;
 
-export const getUpdates = () => {
-  return { level, pages };
-};
 export const initDb = async () => {
-  let allTodos = [];
   async function initPromise() {
     return new Promise(function (resolve, reject) {
       dbReq = indexedDB.open("myDatabase", 1);
@@ -27,19 +11,18 @@ export const initDb = async () => {
       };
       dbReq.onsuccess = function (event) {
         db = event.target.result;
-        allTodos = getAndDisplayTodos(db);
-        resolve(allTodos);
+        let res = getAndDisplayTodos(db);
+        resolve(res);
       };
       dbReq.onerror = function (event) {
-        alert("Error while opening database " + event.target.errorCode);
+        console.error("Error while opening database " + event.target.errorCode);
       };
     });
   }
-
-  allTodos = initPromise().then(function (result) {
+  const initPromiseCall = initPromise().then(function (result) {
     return result;
   });
-  return allTodos;
+  return (initPromiseCall)
 };
 
 function addTodo(db, task) {
@@ -52,11 +35,10 @@ function addTodo(db, task) {
     console.log(objectStore.result);
   };
   transaction.oncomplete = function () {
-    console.log("objectStored your new todo task!");
-    // getAndDisplayTodos(db);
+    console.log("Stored your new todo task!");
   };
   transaction.onerror = function (event) {
-    alert("Error while storing the todo " + event.target.errorCode);
+    console.error("Error while storing the todo " + event.target.errorCode);
   };
 }
 
@@ -90,16 +72,13 @@ export const getAndDisplayTodos = (db) => {
       allTodos.sort(function (a, b) {
         return a.check - b.check;
       });
-      pages = allTodos.length;
     }
   };
   req.onerror = function (event) {
-    alert("error in cursor request " + event.target.errorCode);
+    console.error("error in cursor request " + event.target.errorCode);
   };
   return allTodos;
 };
-
-// new toggle func
 
 export const toggle = async (id) => {
   async function togglePromise() {
@@ -113,10 +92,9 @@ export const toggle = async (id) => {
   });
   return;
 };
-// old toggle
-export const toggleTodo = (db, id) => {
+
+const toggleTodo = (db, id) => {
   let checked = document.getElementById(id)?.checked;
-  console.log(checked);
   let transaction = db.transaction(["todos"], "readwrite");
   let objectStore = transaction.objectStore("todos");
 
@@ -138,9 +116,10 @@ export const toggleTodo = (db, id) => {
     }
   };
   req.onerror = function (event) {
-    alert("Error toggling the todo" + event.target.errorCode);
+    console.error("Error toggling the todo" + event.target.errorCode);
   };
 };
+
 export const loadOnScroll = () => {
   let transaction = db.transaction(["todos"], "readwrite");
   let objectStore = transaction.objectStore("todos");
@@ -149,10 +128,9 @@ export const loadOnScroll = () => {
   };
   transaction.oncomplete = function () {
     console.log("New todos loaded");
-    level++;
     // getAndDisplayTodos(db, level);
   };
   transaction.onerror = function (event) {
-    alert("Error while loading the todo " + event.target.errorCode);
+    console.error("Error while loading the todo " + event.target.errorCode);
   };
 };
