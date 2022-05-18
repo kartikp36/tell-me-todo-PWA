@@ -7,13 +7,13 @@ import DisplayTodos from "./DisplayTodos";
 
 function App() {
   const [level, setLevel] = useState(1);
-  const [allTodos, setAllTodos] = useState([]);
+  const [allTodos, setAllTodos] = useState();
+
   const getTodos = async () => {
-    let result = await initDb();
-    setTimeout(() => {
-      setAllTodos(result);
-    }, 200);
+    let result = await (initDb())();
+    setAllTodos(result);
   };
+
   useEffect(() => {
     getTodos();
   }, []);
@@ -53,6 +53,7 @@ function App() {
       }
     }
   };
+
   return (
     <div
       id="body-scroll"
@@ -99,14 +100,12 @@ function App() {
             />
           </div>
         </form>
-        <div id="todos" key={!!allTodos}>
-          {!!allTodos ? (
-            <DisplayTodos
-              key={allTodos.length}
-              todos={allTodos}
-              level={level}
-            />
-          ) : null}
+        <div id="todos">
+          <ul>
+            {allTodos?.length > 0 && (
+              <DisplayTodos key={!!allTodos} todos={allTodos} level={level} />
+            )}
+          </ul>
         </div>
         <div id="loadmore">
           {loadMoreButton && (

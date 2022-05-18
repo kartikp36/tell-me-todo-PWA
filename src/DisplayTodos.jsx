@@ -3,7 +3,7 @@ import { toggle } from "./db";
 
 export const DisplayTodos = ({ level, todos }) => {
   todos = todos.slice(0, level * 10);
-  const listItem = (todo) => {
+  const listItem = todos.map((todo) => {
     return (
       <li key={todo.key}>
         <input
@@ -25,15 +25,11 @@ export const DisplayTodos = ({ level, todos }) => {
         </label>
       </li>
     );
-  };
+  });
 
   return (
     <div>
-      <ul>
-        {todos.map((todo) => {
-          return listItem(todo);
-        })}
-      </ul>
+      {listItem}
     </div>
   );
 };

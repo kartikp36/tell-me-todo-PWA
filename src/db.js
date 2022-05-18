@@ -1,7 +1,7 @@
 let db;
 let dbReq;
 
-export const initDb = async () => {
+export const initDb = () => {
   async function initPromise() {
     return new Promise(function (resolve, reject) {
       dbReq = indexedDB.open("myDatabase", 1);
@@ -11,18 +11,18 @@ export const initDb = async () => {
       };
       dbReq.onsuccess = function (event) {
         db = event.target.result;
-        let res = getAndDisplayTodos(db);
-        resolve(res);
+        getAndDisplayTodos(db).then((allTodos) => {
+          resolve(allTodos);
+        });
+        
       };
       dbReq.onerror = function (event) {
         console.error("Error while opening database " + event.target.errorCode);
+        reject(event.target);
       };
     });
   }
-  const initPromiseCall = initPromise().then(function (result) {
-    return result;
-  });
-  return (initPromiseCall)
+  return initPromise;
 };
 
 function addTodo(db, task) {
@@ -51,33 +51,36 @@ export const submitTodo = (task) => {
 };
 
 export const getAndDisplayTodos = (db) => {
-  let transaction = db.transaction(["todos"], "readwrite");
-  let objectStore = transaction.objectStore("todos");
-
-  let req = objectStore.openCursor();
-  let allTodos = [];
-
-  req.onsuccess = function (event) {
-    let cursor = event.target.result;
-    if (cursor != null) {
-      let todo = !cursor.value.key
-        ? { ...cursor.value, key: cursor.key }
-        : cursor.value;
-      allTodos.push(todo);
-      cursor.continue();
-    } else {
-      allTodos.sort(function (a, b) {
-        return new Date(b.timestamp) - new Date(a.timestamp);
-      });
-      allTodos.sort(function (a, b) {
-        return a.check - b.check;
-      });
-    }
-  };
-  req.onerror = function (event) {
-    console.error("error in cursor request " + event.target.errorCode);
-  };
-  return allTodos;
+  return new Promise((resolve, reject) => {
+    let transaction = db.transaction(["todos"], "readwrite");
+    let objectStore = transaction.objectStore("todos");
+  
+    let req = objectStore.openCursor();
+    let allTodos = [];
+  
+    req.onsuccess = function (event) {
+      let cursor = event.target.result;
+      if (cursor != null) {
+        let todo = !cursor.value.key
+          ? { ...cursor.value, key: cursor.key }
+          : cursor.value;
+        allTodos.push(todo);
+        cursor.continue();
+      } else {
+        allTodos.sort(function (a, b) {
+          return new Date(b.timestamp) - new Date(a.timestamp);
+        });
+        allTodos.sort(function (a, b) {
+          return a.check - b.check;
+        });
+        resolve(allTodos);
+      }
+    };
+    req.onerror = function (event) {
+      reject(event.target);
+      console.error("error in cursor request " + event.target.errorCode);
+    };
+  });
 };
 
 export const toggle = async (id) => {
