@@ -14,7 +14,7 @@ body {
 
 #container {
   height: 100%;
-  max-width: 900px;
+  max-width: 64%;
   margin: 0 auto;
   text-align: left;
   padding: 0 20px;
@@ -145,6 +145,8 @@ ul {
   list-style-type: none;
 }
 li {
+  width: 100%;
+  word-break: break-word;
   font-size: 2em;
   font-family: "Ubuntu", sans-serif;
   margin-bottom: 32px; /*32 */
@@ -267,9 +269,17 @@ input[type="text"]::placeholder {
   left: 0;
 }
 
+.label-date {
+  margin-left: 100px;
+  font-size: 0.6em;
+  opacity: 0.64;
+}
+
 @media only screen and (max-width: 768px) {
   #container {
     padding: 0 0;
+    max-width: 84%;
+
   }
   .heading {
     font-size: 1.6em;
@@ -302,5 +312,10 @@ input[type="text"]::placeholder {
   input[type="text"] {
     font-size: 1em;
     letter-spacing: 1px;
+  }
+  .label-date {
+    margin-left: 60px;
+    font-size: 0.7em;
+    opacity: 0.64;
   }
 }
