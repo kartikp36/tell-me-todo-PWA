@@ -83,6 +83,7 @@ function App() {
                 onChange={(e) => handleChange(e)}
                 value={task}
                 autoFocus
+                required
                 className="border-effect"
                 type="text"
                 id="input-text"
