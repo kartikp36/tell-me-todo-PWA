@@ -57,6 +57,7 @@ function App() {
   return (
     <div
       id="body-scroll"
+      className="body-scroll"
       onScroll={onScroll}
       ref={listInnerRef}
       style={{

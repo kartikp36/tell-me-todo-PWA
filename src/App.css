@@ -3,6 +3,11 @@ body {
   height: max-content;
   min-height: 100vh;
   text-align: center;
+}
+
+.body-scroll {
+  box-sizing: border-box;
+  text-align: center;
   background: linear-gradient(56deg, #4158d0, #c850c0, #ffcc70);
   background-size: 600% 600%;
 
@@ -13,7 +18,7 @@ body {
 }
 
 #container {
-  height: 100%;
+  height: max-content;
   max-width: 64%;
   margin: 0 auto;
   text-align: left;
@@ -279,7 +284,6 @@ input[type="text"]::placeholder {
   #container {
     padding: 0 0;
     max-width: 84%;
-
   }
   .heading {
     font-size: 1.6em;
