@@ -5,7 +5,7 @@
 	
 To do app to keep track of pending tasks and things, *you've got to do!* 
 
-#### Todo App: [https://mytodotasks.vercel.app/](https://tellmetodo.vercel.app/)
+#### Todo App: https://tellmetodo.vercel.app/
 
 ## App Stack:
 	- React.js
