@@ -154,7 +154,7 @@ li {
   word-break: break-word;
   font-size: 2em;
   font-family: "Ubuntu", sans-serif;
-  margin-bottom: 32px; /*32 */
+  margin-bottom: 32px;
 }
 .trash {
   vertical-align: middle;
@@ -236,7 +236,6 @@ li {
   outline: none;
 }
 .input-todo {
-  /* width: 27.33%; */
   position: relative;
   flex: 1;
   display: inline-block;
@@ -251,7 +250,6 @@ input[type="text"] {
   letter-spacing: 1px;
 }
 input[type="text"]::placeholder {
-  /* font-size: 2em; */
   font-family: "Ubuntu", sans-serif;
   color: rgba(27, 27, 27, 0.707);
   width: 100%;
@@ -263,7 +261,6 @@ input[type="text"]::placeholder {
 .border-effect {
   border: 0;
   padding: 7px 0;
-  /* border-bottom: 1px solid #ccc; */
 }
 
 .border-effect ~ .focus-border {

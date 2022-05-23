@@ -83,24 +83,11 @@ export const getAndDisplayTodos = (db) => {
 };
 
 export const toggle = async (id) => {
-  async function togglePromise() {
-    return new Promise(function (resolve, reject) {
-      toggleTodo(db, id);
-    });
-  }
+  let checked = await document.getElementById(id)?.checked;
+  let transaction = await db.transaction(["todos"], "readwrite");
+  let objectStore = await transaction.objectStore("todos");
 
-  togglePromise().then(function (result) {
-    return;
-  });
-  return;
-};
-
-const toggleTodo = (db, id) => {
-  let checked = document.getElementById(id)?.checked;
-  let transaction = db.transaction(["todos"], "readwrite");
-  let objectStore = transaction.objectStore("todos");
-
-  let req = objectStore.get(id);
+  let req = await objectStore.get(id);
   req.onsuccess = function () {
     let todo = req.result;
     if (todo) {
@@ -143,7 +130,6 @@ export const loadOnScroll = () => {
   };
   transaction.oncomplete = function () {
     console.log("New todos loaded");
-    // getAndDisplayTodos(db, level);
   };
   transaction.onerror = function (event) {
     console.error("Error while loading the todo " + event.target.errorCode);
