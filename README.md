@@ -2,9 +2,9 @@
 
 # To-do app
 
-> Elegent yet simple todo **`Progressive Web Application`**
+> An Elegant todo **`Progressive Web Application`**
 	
-To do app to keep track of pending tasks and things, *you've got to do!* 
+To do app to keep track of pending tasks and things, it will tell me and you what tasks we've got *to do!*
 
 #### Todo App: https://tellmetodo.vercel.app/
 ## PWA 
@@ -16,6 +16,13 @@ This project is made with [Create React App's PWA support](https://create-react-
 > Basically, you can add shortcut of the site to your mobile phone and use the app with or without internet! Cool, right? That's PWA!
 
 ### PWA Demo:
+To install the PWA, simply use `Install app` or `Add to home screen` option from  the menu of your mobile phone browser. 
+
+> You may be automatically prompted to install/add-shortcut of the web
+> app depending on your browser(As you may see in the demo gif).
+
+For desktop(Windows, Mac or Linux), click the `Install` icon on upper right corner in the URL bar to install the PWA as desktop app.
+
 <img src="https://user-images.githubusercontent.com/36930635/169800688-a1eedf76-80fb-4fcd-b459-86c6b2993334.gif" width="auto" height="512" />
 
 
