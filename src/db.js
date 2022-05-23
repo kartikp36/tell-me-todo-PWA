@@ -14,7 +14,6 @@ export const initDb = () => {
         getAndDisplayTodos(db).then((allTodos) => {
           resolve(allTodos);
         });
-        
       };
       dbReq.onerror = function (event) {
         console.error("Error while opening database " + event.target.errorCode);
@@ -54,10 +53,10 @@ export const getAndDisplayTodos = (db) => {
   return new Promise((resolve, reject) => {
     let transaction = db.transaction(["todos"], "readwrite");
     let objectStore = transaction.objectStore("todos");
-  
+
     let req = objectStore.openCursor();
     let allTodos = [];
-  
+
     req.onsuccess = function (event) {
       let cursor = event.target.result;
       if (cursor != null) {
@@ -120,6 +119,19 @@ const toggleTodo = (db, id) => {
   };
   req.onerror = function (event) {
     console.error("Error toggling the todo" + event.target.errorCode);
+  };
+};
+
+export const handleDelete = async (id) => {
+  let transaction = await db.transaction(["todos"], "readwrite");
+  let objectStore = transaction.objectStore("todos");
+
+  let req = await objectStore.delete(id);
+  req.onsuccess = function () {
+    console.log("The delete transaction was completed" + req);
+  };
+  req.onerror = function (event) {
+    console.error("Error deleting the todo" + event.target.errorCode);
   };
 };
 

@@ -156,6 +156,13 @@ li {
   font-family: "Ubuntu", sans-serif;
   margin-bottom: 32px; /*32 */
 }
+.trash {
+  vertical-align: middle;
+  width: 1.2em;
+  height: 1.2em;
+  line-height: 1.7;
+  cursor: pointer;
+}
 
 [type="checkbox"]:not(:checked),
 [type="checkbox"]:checked {

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import "./App.css";
-import { initDb } from "./db";
+import { handleDelete, initDb } from "./db";
 import { loadOnScroll, submitTodo } from "./db";
 import DisplayTodos from "./DisplayTodos";
 
@@ -10,10 +10,13 @@ function App() {
   const [allTodos, setAllTodos] = useState();
 
   const getTodos = async () => {
-    let result = await (initDb())();
+    let result = await initDb()();
     setAllTodos(result);
   };
-
+  const handleTrashClick = (key) => {
+    handleDelete(key);
+    getTodos();
+  };
   useEffect(() => {
     getTodos();
   }, []);
@@ -105,7 +108,12 @@ function App() {
         <div id="todos">
           <ul>
             {allTodos?.length > 0 && (
-              <DisplayTodos key={!!allTodos} todos={allTodos} level={level} />
+              <DisplayTodos
+                key={!!allTodos}
+                todos={allTodos}
+                level={level}
+                handleTrashClick={handleTrashClick}
+              />
             )}
           </ul>
         </div>
