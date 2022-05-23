@@ -1,14 +1,27 @@
 
+
 # To-do app
 
-> Elegent yet simple todo app
+> Elegent yet simple todo **`Progressive Web Application`**
 	
 To do app to keep track of pending tasks and things, *you've got to do!* 
 
 #### Todo App: https://tellmetodo.vercel.app/
+## PWA 
+A [Progressive Web Application](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps)  (PWAs) are web apps that use [service workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API), [manifests](https://developer.mozilla.org/en-US/docs/Web/Manifest), and other web-platform features in combination with [progressive enhancement](https://developer.mozilla.org/en-US/docs/Glossary/Progressive_Enhancement) to give users an experience on par with native apps.
+
+This project is made with [Create React App's PWA support](https://create-react-app.dev/docs/making-a-progressive-web-app/). To read more on it: [web.dev blogs](https://web.dev/progressive-web-apps/)
+
+> Basically, you can add shortcut of the site to your mobile phone and use the app with or without internet! Cool, right? That's PWA!
+
+### PWA Demo:
+
+![todo-pwa-demo](https://user-images.githubusercontent.com/36930635/169790287-fcf4a552-2ee1-464d-9116-99af7a95057f.gif)
+
 
 ## App Stack:
 	- React.js
+	- PWA(create-react-app)
 	- IndexedDb
 
 > Also checkout exactly the same project, but made with Vanilla JavaScript,
