@@ -16,7 +16,7 @@ This project is made with [Create React App's PWA support](https://create-react-
 > Basically, you can add shortcut of the site to your mobile phone and use the app with or without internet! Cool, right? That's PWA!
 
 ### PWA Demo:
-<img src="https://user-images.githubusercontent.com/36930635/169795936-735542de-f1be-4301-b5c8-8e210b206ecd.gif" width="auto" height="512" />
+<img src="https://user-images.githubusercontent.com/36930635/169800688-a1eedf76-80fb-4fcd-b459-86c6b2993334.gif" width="auto" height="512" />
 
 
 ## App Stack:
